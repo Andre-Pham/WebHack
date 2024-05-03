@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import ResDimensions from "../styling/ResDimensions";
+import HackDimensions from "../styling/HackDimensions";
 
 function usePortraitRendering(callback: (shouldRenderPortrait: boolean) => void) {
     useEffect(() => {
         const handleResize = () => {
-            const shouldRenderPortrait = window.innerWidth <= ResDimensions.screenWidthToRenderPortrait;
+            const shouldRenderPortrait = window.innerWidth <= HackDimensions.screenWidthToRenderPortrait;
             callback(shouldRenderPortrait);
         };
         handleResize();

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
 import StateManager from "../../state/publishers/StateManager";
-import ResColors from "../styling/ResColors";
+import HackColors from "../styling/HackColors";
 import LocalStorageManager from "../../services/LocalStorageManager";
 
 const ColorThemeContext = createContext(StateManager.colorScheme.read());
@@ -24,7 +24,7 @@ export const ColorThemeProvider: React.FC<Props> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        document.body.style.backgroundColor = ResColors.background.getColor();
+        document.body.style.backgroundColor = HackColors.background.getColor();
         LocalStorageManager.inst.writeColorTheme(colorScheme);
     }, [colorScheme]);
 

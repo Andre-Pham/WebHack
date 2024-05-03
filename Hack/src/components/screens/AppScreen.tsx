@@ -1,23 +1,23 @@
 import { useState } from "react";
-import ResDimensions from "../styling/ResDimensions";
+import HackDimensions from "../styling/HackDimensions";
 import VStack from "../containers/Stacks/VStack";
-import ResButton from "../base/ResButton";
-import ResText from "../base/ResText";
-import ResTypography from "../styling/ResTypography";
-import ResColors from "../styling/ResColors";
+import HackButton from "../base/HackButton";
+import HackText from "../base/HackText";
+import HackTypography from "../styling/HackTypography";
+import HackColors from "../styling/HackColors";
 
 function AppScreen() {
     const [count, setCount] = useState(0);
 
     return (
-        <div style={{ padding: ResDimensions.screenPadding }}>
+        <div style={{ padding: HackDimensions.screenPadding }}>
             <VStack>
-                <ResText typography={ResTypography.header}>{`Hello World ${count}`}</ResText>
+                <HackText typography={HackTypography.header}>{`Hello World ${count}`}</HackText>
 
-                <ResButton
+                <HackButton
                     label="Press Me"
-                    typography={ResTypography.button}
-                    color={ResColors.accent}
+                    typography={HackTypography.button}
+                    color={HackColors.accent}
                     onPress={() => {
                         setCount(count + 1);
                     }}

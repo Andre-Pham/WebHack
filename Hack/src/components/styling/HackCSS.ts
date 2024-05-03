@@ -1,7 +1,7 @@
 /**
  * Predefined CSS to be used application-wide.
  */
-class ResCSS {
+class HackCSS {
     static get diableSelection(): React.CSSProperties {
         return {
             // Non-prefixed version, currently supported by Chrome, Opera and Edge
@@ -22,4 +22,4 @@ class ResCSS {
     }
 }
 
-export default ResCSS;
+export default HackCSS;

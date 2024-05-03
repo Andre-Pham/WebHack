@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UnreachableCaseError } from "../../language/errors/UnreachableCaseError";
 
-export enum ResImageScale {
+export enum HackImageScale {
     none,
     scaleToFit,
     scaleToFill,
@@ -12,15 +12,15 @@ interface Props {
     fileName: string;
     width?: number | string;
     height?: number | string;
-    scale?: ResImageScale;
+    scale?: HackImageScale;
     style?: React.CSSProperties;
 }
 
-const ResImage: React.FC<Props> = ({
+const HackImage: React.FC<Props> = ({
     fileName,
     width = "auto",
     height = "auto",
-    scale = ResImageScale.none,
+    scale = HackImageScale.none,
     style,
 }) => {
     const [size, setSize] = useState<{ width?: number | string; height?: number | string }>({
@@ -32,7 +32,7 @@ const ResImage: React.FC<Props> = ({
     );
 
     const handleImageLoaded = (event: any) => {
-        if (scale == ResImageScale.scaleToFill && typeof width == "number" && typeof height == "number") {
+        if (scale == HackImageScale.scaleToFill && typeof width == "number" && typeof height == "number") {
             if (width > height) {
                 setSize({ width: width, height: undefined });
             } else {
@@ -47,16 +47,16 @@ const ResImage: React.FC<Props> = ({
     // NOTE: Don't assign these values to the enum, since there are duplicates
     useEffect(() => {
         switch (scale) {
-            case ResImageScale.none:
+            case HackImageScale.none:
                 setResizeMode("fill");
                 break;
-            case ResImageScale.scaleToFit:
+            case HackImageScale.scaleToFit:
                 setResizeMode("contain");
                 break;
-            case ResImageScale.scaleToFill:
+            case HackImageScale.scaleToFill:
                 setResizeMode("cover");
                 break;
-            case ResImageScale.scaleToFillCrop:
+            case HackImageScale.scaleToFillCrop:
                 setResizeMode("cover");
                 break;
             default:
@@ -79,4 +79,4 @@ const ResImage: React.FC<Props> = ({
     );
 };
 
-export default ResImage;
+export default HackImage;

@@ -1,4 +1,4 @@
-export enum ResFontWeight {
+export enum HackFontWeight {
     extraLight = 200,
     light = 300,
     regular = 400,

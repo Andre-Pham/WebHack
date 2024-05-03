@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import ResColor from "../styling/color/ResColor";
-import ResImage, { ResImageScale } from "./ResImage";
-import ResIcon from "./ResIcon";
-import ResCSS from "../styling/ResCSS";
+import HackColor from "../styling/color/HackColor";
+import HackImage, { HackImageScale } from "./HackImage";
+import HackIcon from "./HackIcon";
+import HackCSS from "../styling/HackCSS";
 
 interface Props {
-    color: ResColor;
+    color: HackColor;
     iconPath?: string; // https://pictogrammers.com/library/mdi/
-    iconColor?: ResColor;
+    iconColor?: HackColor;
     fileName?: string;
     size: number;
     onlyIcon?: boolean;
@@ -15,7 +15,7 @@ interface Props {
     onPress?: () => void;
 }
 
-const ResIconButton: React.FC<Props> = ({
+const HackIconButton: React.FC<Props> = ({
     color,
     iconPath = undefined,
     iconColor = undefined,
@@ -65,16 +65,16 @@ const ResIconButton: React.FC<Props> = ({
                 cursor: "pointer",
                 transition: "transform 0.1s",
                 transform: pressed || touched ? "scale(0.95)" : "scale(1)",
-                ...ResCSS.diableSelection,
+                ...HackCSS.diableSelection,
                 ...style,
             }}
         >
             {fileName != undefined ? (
-                <ResImage
+                <HackImage
                     fileName={fileName}
                     width={(size * 1.8) / 3.0}
                     height={(size * 1.8) / 3.0}
-                    scale={ResImageScale.scaleToFit}
+                    scale={HackImageScale.scaleToFit}
                     style={{
                         alignSelf: "center",
                     }}
@@ -82,10 +82,10 @@ const ResIconButton: React.FC<Props> = ({
             ) : undefined}
 
             {iconPath != undefined ? (
-                <ResIcon
+                <HackIcon
                     iconPath={iconPath}
                     size={(size * 2.2) / 3.0}
-                    color={iconColor ?? new ResColor("#ffffff")}
+                    color={iconColor ?? new HackColor("#ffffff")}
                     style={{
                         alignSelf: "center",
                     }}
@@ -95,4 +95,4 @@ const ResIconButton: React.FC<Props> = ({
     );
 };
 
-export default ResIconButton;
+export default HackIconButton;

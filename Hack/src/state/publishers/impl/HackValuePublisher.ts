@@ -5,13 +5,13 @@ import { Draft, PayloadAction, configureStore, createSlice } from "@reduxjs/tool
  * The class contains the state value (generic type) to be read.
  * To only be initialised within StateManager.
  */
-class ResValuePublisher<Type> {
+class HackValuePublisher<Type> {
     private readonly slice;
     private readonly publisher;
 
     constructor(initialState: Type) {
         this.slice = createSlice({
-            name: "ResValuePublisher",
+            name: "HackValuePublisher",
             initialState: {
                 value: initialState,
             },
@@ -53,4 +53,4 @@ class ResValuePublisher<Type> {
     }
 }
 
-export default ResValuePublisher;
+export default HackValuePublisher;

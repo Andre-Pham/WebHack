@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import ResTypographyConfig from "../styling/typography/ResTypographyConfig";
-import ResText from "./ResText";
-import ResColor from "../styling/color/ResColor";
+import HackTypographyConfig from "../styling/typography/HackTypographyConfig";
+import HackText from "./HackText";
+import HackColor from "../styling/color/HackColor";
 import Icon from "@mdi/react";
-import ResCSS from "../styling/ResCSS";
+import HackCSS from "../styling/HackCSS";
 
 interface Props {
     label: string;
-    typography: ResTypographyConfig;
-    color: ResColor;
+    typography: HackTypographyConfig;
+    color: HackColor;
     iconPath?: string; // https://pictogrammers.com/library/mdi/
     disabled?: boolean;
     wide?: boolean;
@@ -16,7 +16,7 @@ interface Props {
     onPress: () => void;
 }
 
-const ResCompactButton: React.FC<Props> = ({
+const HackCompactButton: React.FC<Props> = ({
     label,
     typography,
     color,
@@ -69,7 +69,7 @@ const ResCompactButton: React.FC<Props> = ({
                 cursor: disabled ? "default" : "pointer",
                 transition: "transform 0.1s",
                 transform: pressed || touched ? "scale(0.95)" : "scale(1)",
-                ...ResCSS.diableSelection,
+                ...HackCSS.diableSelection,
                 ...style,
             }}
             disabled={disabled}
@@ -83,11 +83,11 @@ const ResCompactButton: React.FC<Props> = ({
                 />
             )}
 
-            <ResText typography={typography} wide={false}>
+            <HackText typography={typography} wide={false}>
                 {label}
-            </ResText>
+            </HackText>
         </button>
     );
 };
 
-export default ResCompactButton;
+export default HackCompactButton;

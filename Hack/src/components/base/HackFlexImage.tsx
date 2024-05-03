@@ -6,7 +6,7 @@ interface Props {
     style?: React.CSSProperties;
 }
 
-const ResFlexImage: React.FC<Props> = ({ fileName, flexVertical, style }) => {
+const HackFlexImage: React.FC<Props> = ({ fileName, flexVertical, style }) => {
     return (
         <img
             src={`/images/${fileName}`}
@@ -22,4 +22,4 @@ const ResFlexImage: React.FC<Props> = ({ fileName, flexVertical, style }) => {
     );
 };
 
-export default ResFlexImage;
+export default HackFlexImage;

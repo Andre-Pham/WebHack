@@ -1,6 +1,6 @@
 import React from "react";
-import ResTypographyConfig from "../styling/typography/ResTypographyConfig";
-import { ResFontWeight } from "../styling/typography/ResFontWeight";
+import HackTypographyConfig from "../styling/typography/HackTypographyConfig";
+import { HackFontWeight } from "../styling/typography/HackFontWeight";
 
 interface Props {
     // Text or other components to be embedded
@@ -8,7 +8,7 @@ interface Props {
     // The URL to open
     url: string;
     // Typography applied
-    typography: ResTypographyConfig;
+    typography: HackTypographyConfig;
     // If the component should expand to take up available horizontal space
     wide?: boolean;
     // If the frame should exactly match the text
@@ -17,8 +17,8 @@ interface Props {
     style?: React.CSSProperties;
 }
 
-const ResHyperlink: React.FC<Props> = ({ children, url, typography, verticalWrap = false, wide = true, style }) => {
-    let linkTypography = typography.withWeight(ResFontWeight.bold).withUnderline(true);
+const HackHyperlink: React.FC<Props> = ({ children, url, typography, verticalWrap = false, wide = true, style }) => {
+    let linkTypography = typography.withWeight(HackFontWeight.bold).withUnderline(true);
     return (
         // Span means the frame doesn't extend past the text (i.e. can be clicked past the text)
         <span>
@@ -42,4 +42,4 @@ const ResHyperlink: React.FC<Props> = ({ children, url, typography, verticalWrap
     );
 };
 
-export default ResHyperlink;
+export default HackHyperlink;

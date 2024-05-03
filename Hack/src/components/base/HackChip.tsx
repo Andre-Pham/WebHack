@@ -1,15 +1,15 @@
 import { useState } from "react";
-import ResColor from "../styling/color/ResColor";
-import ResCSS from "../styling/ResCSS";
+import HackColor from "../styling/color/HackColor";
+import HackCSS from "../styling/HackCSS";
 
 interface Props {
-    color: ResColor;
+    color: HackColor;
     onPress?: () => void;
     children: React.ReactNode;
     style?: React.CSSProperties;
 }
 
-const ResChip: React.FC<Props> = ({ color, onPress, children, style }) => {
+const HackChip: React.FC<Props> = ({ color, onPress, children, style }) => {
     const [pressed, setPressed] = useState(false);
     const [touched, setTouched] = useState(false);
 
@@ -55,7 +55,7 @@ const ResChip: React.FC<Props> = ({ color, onPress, children, style }) => {
                 cursor: "pointer",
                 transition: "transform 0.1s",
                 transform: pressed || touched ? "scale(0.95)" : "scale(1)",
-                ...ResCSS.diableSelection,
+                ...HackCSS.diableSelection,
                 ...style,
             }}
         >
@@ -76,4 +76,4 @@ const ResChip: React.FC<Props> = ({ color, onPress, children, style }) => {
     );
 };
 
-export default ResChip;
+export default HackChip;

@@ -1,19 +1,19 @@
-import { ResFontFamily } from "./ResFontFamily";
-import { ResFontWeight } from "./ResFontWeight";
-import ResColor from "../color/ResColor";
+import { HackFontFamily } from "./HackFontFamily";
+import { HackFontWeight } from "./HackFontWeight";
+import HackColor from "../color/HackColor";
 
-class ResTypographyConfig {
+class HackTypographyConfig {
     public size: number;
-    public fontFamily: ResFontFamily;
+    public fontFamily: HackFontFamily;
     // An undefined color allows the component handle the color
-    public resColor: ResColor | undefined;
-    public weight: ResFontWeight;
+    public colorObject: HackColor | undefined;
+    public weight: HackFontWeight;
     public italic: boolean;
     public underlined: boolean;
     public linedOut: boolean;
     public kerning: number;
     get color(): string | undefined {
-        return this.resColor?.getColor();
+        return this.colorObject?.getColor();
     }
     get lineStyle(): "none" | "underline" | "line-through" | "underline line-through" {
         let result = "";
@@ -32,9 +32,9 @@ class ResTypographyConfig {
 
     constructor(
         size: number,
-        fontFamily: ResFontFamily,
-        color: ResColor | undefined,
-        weight: ResFontWeight = ResFontWeight.medium,
+        fontFamily: HackFontFamily,
+        color: HackColor | undefined,
+        weight: HackFontWeight = HackFontWeight.medium,
         italic: boolean = false,
         underlined: boolean = false,
         linedOut: boolean = false,
@@ -42,7 +42,7 @@ class ResTypographyConfig {
     ) {
         this.size = size;
         this.fontFamily = fontFamily;
-        this.resColor = color;
+        this.colorObject = color;
         this.weight = weight;
         this.italic = italic;
         this.underlined = underlined;
@@ -50,32 +50,32 @@ class ResTypographyConfig {
         this.kerning = kerning;
     }
 
-    public withSize(size: number): ResTypographyConfig {
+    public withSize(size: number): HackTypographyConfig {
         this.size = size;
         return this;
     }
 
-    public withColor(color: ResColor): ResTypographyConfig {
-        this.resColor = color;
+    public withColor(color: HackColor): HackTypographyConfig {
+        this.colorObject = color;
         return this;
     }
 
-    public withWeight(weight: ResFontWeight): ResTypographyConfig {
+    public withWeight(weight: HackFontWeight): HackTypographyConfig {
         this.weight = weight;
         return this;
     }
 
-    public withItalic(italic: boolean): ResTypographyConfig {
+    public withItalic(italic: boolean): HackTypographyConfig {
         this.italic = italic;
         return this;
     }
 
-    public withUnderline(underline: boolean): ResTypographyConfig {
+    public withUnderline(underline: boolean): HackTypographyConfig {
         this.underlined = underline;
         return this;
     }
 
-    public withLineOut(lineOut: boolean): ResTypographyConfig {
+    public withLineOut(lineOut: boolean): HackTypographyConfig {
         this.linedOut = lineOut;
         return this;
     }
@@ -93,4 +93,4 @@ class ResTypographyConfig {
     }
 }
 
-export default ResTypographyConfig;
+export default HackTypographyConfig;

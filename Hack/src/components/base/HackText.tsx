@@ -1,11 +1,11 @@
 import React from "react";
-import ResTypographyConfig from "../styling/typography/ResTypographyConfig";
+import HackTypographyConfig from "../styling/typography/HackTypographyConfig";
 
 interface Props {
     // Text or other components to be embedded
     children: React.ReactNode;
     // Typography applied
-    typography: ResTypographyConfig;
+    typography: HackTypographyConfig;
     // If the component should expand to take up available horizontal space
     wide?: boolean;
     // If the frame should exactly match the text
@@ -16,7 +16,7 @@ interface Props {
     style?: React.CSSProperties;
 }
 
-const ResText: React.FC<Props> = ({
+const HackText: React.FC<Props> = ({
     children,
     typography,
     verticalWrap = false,
@@ -43,4 +43,4 @@ const ResText: React.FC<Props> = ({
     return <span style={computedStyle}>{children}</span>;
 };
 
-export default ResText;
+export default HackText;

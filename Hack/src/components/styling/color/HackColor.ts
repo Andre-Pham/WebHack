@@ -3,7 +3,7 @@ import { UnreachableCaseError } from "../../../language/errors/UnreachableCaseEr
 import StateManager from "../../../state/publishers/StateManager";
 import { ColorScheme } from "../../../state/publishers/types/ColorScheme";
 
-class ResColor {
+class HackColor {
     // Hex string
     private readonly lightMode: string;
     // Hex string
@@ -51,4 +51,4 @@ class ResColor {
     }
 }
 
-export default ResColor;
+export default HackColor;

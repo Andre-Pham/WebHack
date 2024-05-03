@@ -1,14 +1,14 @@
 import React from "react";
-import ResColor from "../styling/color/ResColor";
+import HackColor from "../styling/color/HackColor";
 import VStack from "../containers/Stacks/VStack";
-import ResIconButton from "./ResIconButton";
-import ResText from "./ResText";
-import ResTypography from "../styling/ResTypography";
+import HackIconButton from "./HackIconButton";
+import HackText from "./HackText";
+import HackTypography from "../styling/HackTypography";
 
 interface Props {
-    color: ResColor;
+    color: HackColor;
     iconPath?: string; // https://pictogrammers.com/library/mdi/
-    iconColor?: ResColor;
+    iconColor?: HackColor;
     fileName?: string;
     label: string;
     size: number;
@@ -16,7 +16,7 @@ interface Props {
     onPress: () => void;
 }
 
-const ResIconButtonLabelled: React.FC<Props> = ({
+const HackIconButtonLabelled: React.FC<Props> = ({
     color,
     iconPath = undefined,
     iconColor = undefined,
@@ -38,7 +38,7 @@ const ResIconButtonLabelled: React.FC<Props> = ({
                 ...style,
             }}
         >
-            <ResIconButton
+            <HackIconButton
                 iconPath={iconPath}
                 iconColor={iconColor}
                 fileName={fileName}
@@ -55,12 +55,12 @@ const ResIconButtonLabelled: React.FC<Props> = ({
                     textAlign: "center",
                 }}
             >
-                <ResText typography={ResTypography.subscriptLabel} style={{ alignSelf: "center", textAlign: "center" }}>
+                <HackText typography={HackTypography.subscriptLabel} style={{ alignSelf: "center", textAlign: "center" }}>
                     {label}
-                </ResText>
+                </HackText>
             </div>
         </VStack>
     );
 };
 
-export default ResIconButtonLabelled;
+export default HackIconButtonLabelled;

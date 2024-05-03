@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ResCSS from "../../styling/ResCSS";
+import HackCSS from "../../styling/HackCSS";
 
 interface Props {
     onPress: () => void;
@@ -51,7 +51,7 @@ const PressableContainer: React.FC<Props> = ({ onPress, disableSelection = false
                 cursor: "pointer",
                 transition: "transform 0.1s",
                 transform: pressed || touched ? "scale(0.95)" : "scale(1)",
-                ...(disableSelection ? ResCSS.diableSelection : undefined),
+                ...(disableSelection ? HackCSS.diableSelection : undefined),
                 ...style,
             }}
         >
