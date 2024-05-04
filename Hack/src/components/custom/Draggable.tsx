@@ -1,52 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { UnreachableCaseError } from "../../language/errors/UnreachableCaseError";
+import React, { useEffect, useRef } from "react";
+import { useDrag } from "react-dnd";
+import { v4 as uuidv4 } from "uuid";
+
+export enum HackDragType {
+    carrot = "carrot",
+}
 
 interface Props {
+    type: HackDragType;
     children: React.ReactNode;
     style?: React.CSSProperties;
 }
 
-const Draggable: React.FC<Props> = ({ children, style }) => {
-    const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [relPosition, setRelPosition] = useState({ x: 0, y: 0 });
+const Draggable: React.FC<Props> = ({ type, children, style }) => {
+    const dragRef = useRef(null);
+    const id = useRef(uuidv4());
+    const [{ isDragging }, drag, preview] = useDrag(() => ({
+        type: HackDragType.carrot,
+        item: { id: id.current, type: type },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }));
 
-    const onMouseDown = (e: React.MouseEvent) => {
-        setIsDragging(true);
-        setRelPosition({
-            x: e.pageX - position.x,
-            y: e.pageY - position.y,
-        });
-    };
+    const emptyImage = new Image();
+    emptyImage.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
-    const onMouseMove = (e: React.MouseEvent) => {
-        if (isDragging) {
-            setPosition({
-                x: e.pageX - relPosition.x,
-                y: e.pageY - relPosition.y,
-            });
-        }
-    };
+    useEffect(() => {
+        preview(emptyImage, { captureDraggingState: true });
+    }, [preview]);
 
-    const onMouseUp = () => {
-        setIsDragging(false);
-        // Check if the component is dropped on the target here
-        // Trigger animation or fade away
-    };
+    drag(dragRef);
 
     return (
         <div
+            ref={dragRef}
             style={{
-                position: "absolute",
-                left: `${position.x}px`,
-                top: `${position.y}px`,
+                opacity: isDragging ? 0 : 1,
                 cursor: isDragging ? "grabbing" : "grab",
-                boxShadow: isDragging ? "5px 5px 10px rgba(0,0,0,0.2)" : "none",
+                transition: `opacity ${isDragging ? 0.0 : 1.0}s`,
                 ...style,
             }}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
         >
             {children}
         </div>

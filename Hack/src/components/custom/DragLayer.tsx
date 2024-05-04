@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDragLayer, XYCoord, DragLayerMonitor } from 'react-dnd';
+import React, { useEffect, useState } from "react";
+import { useDragLayer, XYCoord, DragLayerMonitor } from "react-dnd";
 
 interface DragItem {
     type: string;
@@ -11,13 +11,13 @@ interface CustomDragLayerProps {
 }
 
 const layerStyles: React.CSSProperties = {
-    position: 'fixed',
-    pointerEvents: 'none',
+    position: "fixed",
+    pointerEvents: "none",
     zIndex: 1000,
     left: 0,
     top: 0,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
 };
 
 const getItemStyles = (currentOffset: XYCoord | null): React.CSSProperties => {
@@ -36,14 +36,12 @@ const getItemStyles = (currentOffset: XYCoord | null): React.CSSProperties => {
 
     const [opacity, setOpacity] = useState(1);
     const [timeoutComplete, setTimeoutComplete] = useState(false);
-  
+
     // useEffect(() => {
-      
-        
-  
+
     //   return () => {
     //     clearTimeout(transformTimeout);
-        
+
     //   };
     // }, []);
 
@@ -56,14 +54,17 @@ const getItemStyles = (currentOffset: XYCoord | null): React.CSSProperties => {
         //     setTimeoutComplete(true);
         //   }, 500);
 
-        console.log("ENDED")
-        const transform = timeoutComplete ? undefined : `translate3d(${currentOffset}px, ${currentOffset}px, 0) scale(1.2)`;
-        console.log(currentOffset)
+        console.log("ENDED");
+        const transform = timeoutComplete
+            ? undefined
+            : `translate3d(${currentOffset}px, ${currentOffset}px, 0) scale(1.2)`;
+        console.log(currentOffset);
         return {
             transform,
             WebkitTransform: transform,
-            opacity: 0, transition: 'opacity 0.5s'
-        }
+            opacity: 0,
+            transition: "opacity 0.5s",
+        };
     }
 
     // Use translate3d for better performance on browsers
@@ -94,7 +95,7 @@ const CustomDragLayer: React.FC<CustomDragLayerProps> = (props) => {
     let itemStyle: React.CSSProperties = {
         transform,
         WebkitTransform: transform,
-        
+
         // transition: 'transform 0.06s'
     };
 
@@ -108,11 +109,11 @@ const CustomDragLayer: React.FC<CustomDragLayerProps> = (props) => {
         <div style={layerStyles}>
             <div style={getItemStyles(currentOffset)}>
                 {/* Render your custom preview component based on the item type */}
-                {item?.type === 'carrot' && <div>Custom Drag Preview for Carrot</div>}
+                {item?.type === "carrot" && <div>Custom Drag Preview for Carrot</div>}
 
                 {/* {<div>Persistant Preview for Carrot</div>} */}
 
-                {item?.type !== 'carrot' && <FadeAnimation item={item} tramsform={transform} />}
+                {item?.type !== "carrot" && <FadeAnimation item={item} tramsform={transform} />}
             </div>
         </div>
     );
@@ -126,22 +127,19 @@ interface FadeProps {
 const FadeAnimation: React.FC<FadeProps> = ({ item, tramsform }) => {
     const [opacity, setOpacity] = useState(1);
     const [style, setStyle] = useState<React.CSSProperties>({});
-  
+
     useEffect(() => {
-      
-      // Stay visible for a duration and then fade out
-      const timeout = setTimeout(() => setOpacity(0.5), 100); // Adjust time as needed
-  
-      return () => {
-      
-        clearTimeout(timeout);
-      };
+        // Stay visible for a duration and then fade out
+        const timeout = setTimeout(() => setOpacity(0.5), 100); // Adjust time as needed
+
+        return () => {
+            clearTimeout(timeout);
+        };
     }, []); // Empty dependency array to run only once
-  
+
     return (
-        <div style={{ opacity, transition: 'opacity 0.5s', ...style }}>Custom Drag Preview for Carrot</div> // Adjust timing as needed
-      );
-  }
-  
+        <div style={{ opacity, transition: "opacity 0.5s", ...style }}>Custom Drag Preview for Carrot</div> // Adjust timing as needed
+    );
+};
 
 export default CustomDragLayer;
