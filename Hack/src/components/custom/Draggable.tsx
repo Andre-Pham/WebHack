@@ -8,11 +8,12 @@ export enum HackDragType {
 
 interface Props {
     type: HackDragType;
+    disableTransition?: boolean;
     children: React.ReactNode;
     style?: React.CSSProperties;
 }
 
-const Draggable: React.FC<Props> = ({ type, children, style }) => {
+const Draggable: React.FC<Props> = ({ type, disableTransition = false, children, style }) => {
     const dragRef = useRef(null);
     const id = useRef(uuidv4());
     const [{ isDragging }, drag, preview] = useDrag(() => ({
@@ -38,7 +39,7 @@ const Draggable: React.FC<Props> = ({ type, children, style }) => {
             style={{
                 opacity: isDragging ? 0 : 1,
                 cursor: isDragging ? "grabbing" : "grab",
-                transition: `opacity ${isDragging ? 0.0 : 1.0}s`,
+                transition: `opacity ${isDragging || disableTransition ? 0.0 : 1.0}s`,
                 ...style,
             }}
         >

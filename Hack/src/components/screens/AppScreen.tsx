@@ -1,44 +1,92 @@
 import { useState } from "react";
-import HackDimensions from "../styling/HackDimensions";
 import VStack from "../containers/Stacks/VStack";
 import HackText from "../base/HackText";
 import HackTypography from "../styling/HackTypography";
 import Draggable, { HackDragType } from "../custom/Draggable";
 import DropTarget from "../custom/DropTarget";
-import HackImage from "../base/HackImage";
+import HStack from "../containers/Stacks/HStack";
+import Spacer from "../containers/Spacing/Spacer";
+import ZStack from "../containers/Stacks/ZStack";
+import HackButton from "../base/HackButton";
+import HackColors from "../styling/HackColors";
 
 function AppScreen() {
-    const [count, setCount] = useState(0);
+    const [carrotCount, setCarrotCount] = useState(0);
+
+    const renderCarrots = () => {
+        return Array.from({ length: carrotCount }, (_, index) => (
+            <Draggable
+                style={{
+                    marginBottom: 100 + index*30,
+                    marginRight: 50,
+                }}
+                disableTransition={!(carrotCount == 1 && index == 0)}
+                type={HackDragType.carrot}
+            >
+                <div style={{ backgroundColor: "orange", width: 100, height: 30, border: "5px solid red" }} />
+            </Draggable>
+        ));
+    };
 
     return (
-        <div style={{ padding: HackDimensions.screenPadding }}>
-            <VStack spacing={50}>
-                <HackText typography={HackTypography.header}>{`Hello World ${count}`}</HackText>
-
-                <DropTarget
-                    target={HackDragType.carrot}
-                    onDrop={() => {
-                        console.log("hello");
-                        setCount((prevCount) => prevCount + 1);
-                    }}
+        <div style={{}}>
+            <VStack>
+                <ZStack
                     style={{
-                        width: 200,
-                        height: 100,
-                        backgroundColor: "lightgrey",
-                        textAlign: "center",
-                        lineHeight: "100px",
+                        position: "fixed",
+                        left: 0,
+                        bottom: 0,
+                        width: "100%",
                     }}
                 >
-                    Drop target
-                </DropTarget>
+                    <div style={{ backgroundColor: "red", height: 100, width: "100%", bottom: 0 }} />
 
-                <Draggable type={HackDragType.carrot}>Draggable 1</Draggable>
+                    <HStack style={{ width: "100%" }}>
+                        <DropTarget
+                            target={HackDragType.carrot}
+                            onDrop={() => {
+                                setCarrotCount((prevCount) => Math.max(prevCount - 1, 0));
+                            }}
+                        >
+                            <div
+                                style={{
+                                    backgroundColor: "blue",
+                                    height: 200,
+                                    width: 300,
+                                    marginBottom: 50,
+                                    marginLeft: 50,
+                                }}
+                            />
+                        </DropTarget>
 
-                <Draggable type={HackDragType.carrot}>Draggable 1</Draggable>
+                        <Spacer />
 
-                <Draggable type={HackDragType.carrot}>
-                    <HackImage fileName="andre.png" width={100} height={100} />
-                </Draggable>
+                        <ZStack>
+                            <div
+                                style={{
+                                    backgroundColor: "blue",
+                                    height: 100,
+                                    width: 300,
+                                    marginBottom: 100,
+                                    marginRight: 50,
+                                }}
+                            />
+
+                            {renderCarrots()}
+                        </ZStack>
+                    </HStack>
+                </ZStack>
+
+                <HackText typography={HackTypography.header}>{`Carrots: ${carrotCount}`}</HackText>
+
+                <HackButton 
+                    label="More Carrots!"
+                    typography={HackTypography.button}
+                    color={HackColors.accent}
+                    onPress={() => {
+                        setCarrotCount(carrotCount + 1)
+                    }}
+                />
             </VStack>
         </div>
     );
