@@ -2,6 +2,7 @@ import React from "react";
 import { useDragLayer, XYCoord, DragLayerMonitor } from "react-dnd";
 import FadingDragProxy from "./FadingDragProxy";
 import { HackDragType } from "./Draggable";
+import HackImage, { HackImageScale } from "../base/HackImage";
 
 interface DragItem {
     type: HackDragType;
@@ -30,9 +31,15 @@ const DragProxyLayer: React.FC<Props> = ({}) => {
             }}
         >
             <div style={getItemStyles(currentOffset)}>
-                {item?.type === HackDragType.carrot && <div><div style={{ backgroundColor: "orange", width: 100, height: 30, border: "5px solid red" }} /></div>}
+                {item?.type === HackDragType.carrot && (
+                    <HackImage fileName="carrot.png" width={100} scale={HackImageScale.scaleToFit} />
+                )}
 
-                {item?.type !== HackDragType.carrot && <FadingDragProxy><div style={{ backgroundColor: "orange", width: 100, height: 30, border: "5px solid red" }} /></FadingDragProxy>}
+                {item?.type !== HackDragType.carrot && (
+                    <FadingDragProxy>
+                        <HackImage fileName="carrot.png" width={100} scale={HackImageScale.scaleToFit} />
+                    </FadingDragProxy>
+                )}
             </div>
         </div>
     );
@@ -40,7 +47,7 @@ const DragProxyLayer: React.FC<Props> = ({}) => {
 
 const getItemStyles = (currentOffset: XYCoord | null): React.CSSProperties => {
     if (!currentOffset) {
-        const transform = `translate3d(${currentOffset}px, ${currentOffset}px, 0) scale(1.25)`;
+        const transform = `translate3d(${currentOffset}px, ${currentOffset}px, 0) scale(1.0)`;
         return {
             transformOrigin: "left",
             transform,
@@ -50,7 +57,7 @@ const getItemStyles = (currentOffset: XYCoord | null): React.CSSProperties => {
         };
     }
     // Use translate3d for better performance on browsers
-    const transform = `translate3d(${currentOffset.x}px, ${currentOffset.y}px, 0) scale(1.25)`;
+    const transform = `translate3d(${currentOffset.x}px, ${currentOffset.y}px, 0) scale(1.0)`;
     return {
         transformOrigin: "left",
         transform,
