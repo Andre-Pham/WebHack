@@ -38,6 +38,12 @@ import { ColorScheme } from "./types/ColorScheme";
 class StateManager {
     public static readonly colorScheme = new HackValuePublisher(ColorScheme.light);
 
+    public static readonly timeToLiveDescription = new HackValuePublisher<string | null>(null);
+
+    public static readonly foodRemaining = new HackValuePublisher(0);
+
+    public static readonly studySessionDurationDescription = new HackValuePublisher<string | null>(null);
+
     public static setup() {
         StateManager.colorScheme.publish(LocalStorageManager.inst.readColorTheme());
     }

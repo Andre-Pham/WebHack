@@ -1,19 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VStack from "../containers/Stacks/VStack";
-import HackText from "../base/HackText";
 import HackTypography from "../styling/HackTypography";
 import Draggable, { HackDragType } from "../custom/Draggable";
 import DropTarget from "../custom/DropTarget";
 import HStack from "../containers/Stacks/HStack";
-import Spacer from "../containers/Spacing/Spacer";
-import ZStack from "../containers/Stacks/ZStack";
 import HackButton from "../base/HackButton";
 import HackColors from "../styling/HackColors";
 import HackImage, { HackImageScale } from "../base/HackImage";
 import HGap from "../containers/Spacing/HGap";
+import StateManager from "../../state/publishers/StateManager";
+import Session from "../../model/Session";
+import HackText from "../base/HackText";
 
 function AppScreen() {
-    const [carrotCount, setCarrotCount] = useState(10);
+    const [foodCount, setFoodCount] = useState(StateManager.foodRemaining.read());
+    const [timeToLive, setTimeToLive] = useState<string | null>(StateManager.timeToLiveDescription.read());
+    const [studySessionDuration, setStudySessionDuration] = useState<string | null>(StateManager.studySessionDurationDescription.read());
+
+    useEffect(() => {
+        const foodUnsubscribe = StateManager.foodRemaining.subscribe(() => {
+            setFoodCount(StateManager.foodRemaining.read())
+        });
+        const timeToLiveUnsubscribe = StateManager.timeToLiveDescription.subscribe(() => {
+            setTimeToLive(StateManager.timeToLiveDescription.read());
+        });
+        const studyDurationUnsubscribe = StateManager.studySessionDurationDescription.subscribe(() => {
+            setStudySessionDuration(StateManager.studySessionDurationDescription.read());
+        })
+
+        return () => {
+            foodUnsubscribe();
+            timeToLiveUnsubscribe();
+            studyDurationUnsubscribe();
+        };
+    }, []);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            Session.inst.refreshState();
+            console.log("refreshed");
+        }, 1_000);
+    
+        return () => clearInterval(timer);
+    }, []);
+
+    const onFeedFood = () => {
+        Session.inst.feedPet();
+    }
+
+    const startStudySession = () => {
+        Session.inst.startStudySession();
+    }
+
+    const endStudySession = () => {
+        Session.inst.endStudySession()
+    }
 
     return (
         <div style={{}}>
@@ -79,10 +120,7 @@ function AppScreen() {
                     >
                         <DropTarget
                             target={HackDragType.carrot}
-                            onDrop={() => {
-                                console.log("DROPPED");
-                                setCarrotCount((prevCount) => Math.max(prevCount - 1, 0));
-                            }}
+                            onDrop={onFeedFood}
                         >
                             <HackImage
                                 fileName="study-1.png"
@@ -116,7 +154,7 @@ function AppScreen() {
                                 }}
                             ></div>
 
-                            {Array.from({ length: carrotCount }, (_, index) => (
+                            {Array.from({ length: foodCount }, (_, index) => (
                                 <Draggable
                                     style={{
                                         position: "absolute",
@@ -124,7 +162,7 @@ function AppScreen() {
                                         transform: "translateX(-50%)",
                                         bottom: 20 + index * 20,
                                     }}
-                                    disableTransition={!(carrotCount == 1 && index == 0)}
+                                    disableTransition={!(foodCount == 1 && index == 0)}
                                     type={HackDragType.carrot}
                                     key={index}
                                 >
@@ -149,15 +187,30 @@ function AppScreen() {
                         width: "100%",
                     }}
                 >
-                    <VStack>
-                        <HStack>
+                    <VStack spacing={20}>
+                        <HackText typography={HackTypography.pageTitle}>
+                            {`Death Counter: ${timeToLive}`}
+                        </HackText>
+
+                        <HackText typography={HackTypography.pageTitle}>
+                            {`Study Duration: ${studySessionDuration}`}
+                        </HackText>
+
+                        <HStack spacing={20}>
                             <HackButton
-                                label="More Carrots!"
+                                label="Start Study Session"
                                 typography={HackTypography.button}
                                 color={HackColors.accent}
-                                onPress={() => {
-                                    setCarrotCount(carrotCount + 1);
-                                }}
+                                onPress={startStudySession}
+                                wide={false}
+                            />
+
+                            <HackButton
+                                label="End Study Session"
+                                typography={HackTypography.button}
+                                color={HackColors.accent}
+                                onPress={endStudySession}
+                                wide={false}
                             />
                         </HStack>
                     </VStack>
@@ -168,43 +221,3 @@ function AppScreen() {
 }
 
 export default AppScreen;
-
-interface CloudProps {
-    left: string;
-    top: string;
-    width: string;
-    height: string;
-}
-
-const Cloud: React.FC<CloudProps> = ({ left, top, width, height }) => (
-    <div
-        style={{
-            position: "absolute",
-            left,
-            top,
-            width,
-            height,
-            backgroundColor: "white",
-            borderRadius: "50%",
-        }}
-    />
-);
-
-interface BunnyProps {
-    left: string;
-    bottom: string;
-    size: string;
-}
-
-const Bunny: React.FC<BunnyProps> = ({ left, bottom, size }) => (
-    <div
-        style={{
-            position: "absolute",
-            left,
-            bottom,
-            width: size,
-            height: size,
-            backgroundColor: "brown",
-        }}
-    />
-);
