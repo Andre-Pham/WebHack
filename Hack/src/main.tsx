@@ -6,7 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ColorThemeProvider } from "./components/providers/ThemeProvider.tsx";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import CustomDragLayer from "./components/custom/DragLayer.tsx";
+import DragProxyLayer from "./components/custom/DragLayer.tsx";
 
 // For more about routing:
 // https://reactrouter.com/en/main/start/tutorial
@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ColorThemeProvider>
             <DndProvider backend={HTML5Backend}>
-                <CustomDragLayer />
+                <DragProxyLayer />
 
                 <RouterProvider router={router} />
             </DndProvider>

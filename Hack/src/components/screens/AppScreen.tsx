@@ -18,7 +18,7 @@ function AppScreen() {
                 <DropTarget
                     target={HackDragType.carrot}
                     onDrop={() => {
-                        console.log("hello")
+                        console.log("hello");
                         setCount((prevCount) => prevCount + 1);
                     }}
                     style={{
@@ -37,11 +37,7 @@ function AppScreen() {
                 <Draggable type={HackDragType.carrot}>Draggable 1</Draggable>
 
                 <Draggable type={HackDragType.carrot}>
-                    <HackImage 
-                        fileName="andre.png"
-                        width={100}
-                        height={100}
-                    />
+                    <HackImage fileName="andre.png" width={100} height={100} />
                 </Draggable>
             </VStack>
         </div>
