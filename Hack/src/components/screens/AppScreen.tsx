@@ -1,28 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HackDimensions from "../styling/HackDimensions";
 import VStack from "../containers/Stacks/VStack";
 import HackButton from "../base/HackButton";
-import HackText from "../base/HackText";
-import HackTypography from "../styling/HackTypography";
-import HackColors from "../styling/HackColors";
+import HackImage from "../base/HackImage";
+import AnimationPlay from "../custom/AnimationPlay";
+import { TIMEOUT } from "dns";
 
 function AppScreen() {
-    const [count, setCount] = useState(0);
+    const [activeAnimation, setActiveAnimation] = useState(1);
+
+    // Function to handle switching animations
+    const handleAnimationSwitch = () => {
+        setActiveAnimation(2); // Switch to the second animation
+    };
+
+    useEffect(() => {
+        let timer;
+        if (activeAnimation === 2) {
+            timer = setTimeout(() => {
+                setActiveAnimation(1);
+            }, 5000); // assigns the time
+        }
+
+        return () => clearTimeout(timer);
+    }, [activeAnimation]);
 
     return (
-        <div style={{ padding: HackDimensions.screenPadding }}>
-            <VStack>
-                <HackText typography={HackTypography.header}>{`Hello World ${count}`}</HackText>
+        <div>
+            {activeAnimation === 1 ? (
 
-                <HackButton
-                    label="Press Me"
-                    typography={HackTypography.button}
-                    color={HackColors.accent}
-                    onPress={() => {
-                        setCount(count + 1);
-                    }}
-                />
-            </VStack>
+                // Change onClick to a different user move
+                <div onClick={handleAnimationSwitch}>
+                    {/* Animation 1 */}
+                    <p>
+                        <AnimationPlay frames={["andre.png", "yonder.png", "square.png"]} />
+                    </p>
+                </div>
+            ) : (
+                <div>
+                    {/* Animation 2 */}
+                    <p>
+                        <AnimationPlay frames={["download.png", "images.jpg", "tree.jpg"]} />
+                    </p>
+                </div>
+            )}
         </div>
     );
 }
