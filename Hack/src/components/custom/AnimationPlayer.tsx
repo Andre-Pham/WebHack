@@ -28,7 +28,15 @@ const AnimationPlayer: React.FC<Props> = ({
         return () => clearInterval(intervalId);
     }, [frameSpeed, frames.length]);
 
-    return <HackImage fileName={frames[frameIndex]} width={width} height={height} style={style} scale={scale} />;
+    return (
+        <HackImage
+            fileName={frames.length === 1 ? frames[0] : frames[frameIndex]}
+            width={width}
+            height={height}
+            style={style}
+            scale={scale}
+        />
+    );
 };
 
 export default AnimationPlayer;
