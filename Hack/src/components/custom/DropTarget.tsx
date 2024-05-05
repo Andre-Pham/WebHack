@@ -14,7 +14,7 @@ const DropTarget: React.FC<Props> = ({ target, onDrop, children, style }) => {
 
     const [, drop] = useDrop(() => ({
         accept: target,
-        drop: (item, monitor) => {
+        drop: (_, monitor) => {
             if (!monitor.didDrop()) {
                 onDrop();
             }

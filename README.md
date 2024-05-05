@@ -23,6 +23,12 @@ $ cd dist
 $ serve
 ```
 
+To publish to web:
+
+```
+$ npm run deploy
+```
+
 ## Project Setup
 
 #### Creating a New Project

@@ -13,7 +13,11 @@ interface Props {
 }
 
 const DragProxyLayer: React.FC<Props> = ({}) => {
-    const { item, isDragging, currentOffset } = useDragLayer((monitor: DragLayerMonitor) => ({
+    const {
+        item,
+        isDragging: _,
+        currentOffset,
+    } = useDragLayer((monitor: DragLayerMonitor) => ({
         item: monitor.getItem() as DragItem,
         isDragging: monitor.isDragging(),
         currentOffset: monitor.getSourceClientOffset(),

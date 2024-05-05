@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
 import StateManager from "../../state/publishers/StateManager";
-import HackColors from "../styling/HackColors";
 import LocalStorageManager from "../../services/LocalStorageManager";
 
 const ColorThemeContext = createContext(StateManager.colorScheme.read());
