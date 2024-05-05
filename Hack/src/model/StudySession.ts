@@ -1,6 +1,6 @@
 class StudySession {
     // The amount of time you have to study to get one food
-    protected static readonly SECONDS_TO_FOOD_CONVERSION: number = 5;
+    protected static readonly SECONDS_TO_FOOD_CONVERSION: number = 1;
     // When the study session started
     protected _start: Date;
     // When the study session ended (or null if ongoing)

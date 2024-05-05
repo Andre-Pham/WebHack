@@ -3,7 +3,6 @@ import VStack from "../containers/Stacks/VStack";
 import HackTypography from "../styling/HackTypography";
 import Draggable, { HackDragType } from "../custom/Draggable";
 import DropTarget from "../custom/DropTarget";
-import HStack from "../containers/Stacks/HStack";
 import HackButton from "../base/HackButton";
 import HackColors from "../styling/HackColors";
 import HackImage, { HackImageScale } from "../base/HackImage";
@@ -11,8 +10,9 @@ import HGap from "../containers/Spacing/HGap";
 import StateManager from "../../state/publishers/StateManager";
 import Session from "../../model/Session";
 import HackText from "../base/HackText";
-import HackFlexImage from "../base/HackFlexImage";
 import VGap from "../containers/Spacing/VGap";
+import AnimationFrames from "../../services/AnimationFrames";
+import AnimationPlayer from "../custom/AnimationPlayer";
 
 function AppScreen() {
     const [foodCount, setFoodCount] = useState(StateManager.foodRemaining.read());
@@ -20,6 +20,9 @@ function AppScreen() {
     const [studySessionDuration, setStudySessionDuration] = useState<string | null>(
         StateManager.studySessionDurationDescription.read(),
     );
+    const [animationFrames, setAnimationFrames] = useState(AnimationFrames.sleeping);
+    const [animationSpeed, setAnimationSpeed] = useState(AnimationFrames.sleepingSpeed);
+    let animationQueueSize = 0;
 
     useEffect(() => {
         const foodUnsubscribe = StateManager.foodRemaining.subscribe(() => {
@@ -44,7 +47,7 @@ function AppScreen() {
     useEffect(() => {
         const timer = setInterval(() => {
             Session.inst.refreshState();
-            console.log("refreshed");
+            // console.log("refreshed");
         }, 500);
 
         return () => clearInterval(timer);
@@ -52,18 +55,49 @@ function AppScreen() {
 
     const onFeedFood = () => {
         Session.inst.feedPet();
+        playAnimation(1, AnimationFrames.eating, AnimationFrames.eatingSpeed);
     };
 
     const startStudySession = () => {
         Session.inst.startStudySession();
+        playAnimation(null, AnimationFrames.studying, AnimationFrames.studyingSpeed);
     };
 
     const endStudySession = () => {
         Session.inst.endStudySession();
+        playAnimation(null, AnimationFrames.sleeping, AnimationFrames.sleepingSpeed);
+    };
+
+    const playAnimation = (durationSeconds: number | null, frames: string[], speed: number) => {
+        setAnimationFrames(frames);
+        setAnimationSpeed(speed);
+        animationQueueSize += 1;
+        if (durationSeconds) {
+            setTimeout(() => {
+                animationQueueSize -= 1;
+                if (animationQueueSize <= 0) {
+                    // Safety
+                    animationQueueSize = 0;
+
+                    const isResting = StateManager.studySessionDurationDescription.read() === null;
+                    if (isResting) {
+                        setAnimationFrames(AnimationFrames.sleeping);
+                        setAnimationSpeed(AnimationFrames.sleepingSpeed);
+                    } else {
+                        setAnimationFrames(AnimationFrames.studying);
+                        setAnimationSpeed(AnimationFrames.studyingSpeed);
+                    }
+                }
+            }, durationSeconds * 1000);
+        }
     };
 
     return (
-        <div style={{}}>
+        <div
+            style={{
+                overflow: "hidden",
+            }}
+        >
             <div
                 style={{
                     position: "relative",
@@ -143,15 +177,10 @@ function AppScreen() {
                         }}
                     >
                         <DropTarget target={HackDragType.carrot} onDrop={onFeedFood}>
-                            <HackImage
-                                fileName="study-1.png"
-                                width={400}
-                                scale={HackImageScale.scaleToFit}
-                                style={{}}
-                            />
+                            <AnimationPlayer frames={animationFrames} frameSpeed={animationSpeed} width={350} />
                         </DropTarget>
 
-                        <HGap size={200} />
+                        <HGap size={150} />
 
                         <div
                             style={{
