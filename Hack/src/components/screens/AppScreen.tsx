@@ -21,7 +21,9 @@ function AppScreen() {
     const [studySessionDuration, setStudySessionDuration] = useState<string | null>(
         StateManager.studySessionDurationDescription.read(),
     );
-    const [animationFrames, setAnimationFrames] = useState(AnimationFrames.sleeping);
+    const [animationFrames, setAnimationFrames] = useState(
+        AnimationFrames.getSleepingFrames(Session.inst.getPetState()),
+    );
     const [animationSpeed, setAnimationSpeed] = useState(AnimationFrames.sleepingSpeed);
     let animationQueueSize = 0;
     const [timeTravelOpacity, setTimeTravelOpacity] = useState(0);
@@ -36,6 +38,17 @@ function AppScreen() {
         const studyDurationUnsubscribe = StateManager.studySessionDurationDescription.subscribe(() => {
             setStudySessionDuration(StateManager.studySessionDurationDescription.read());
         });
+        const petStateUnsubscribe = StateManager.petState.subscribe(() => {
+            const newState = StateManager.petState.read();
+            const isResting = StateManager.studySessionDurationDescription.read() === null;
+            if (isResting) {
+                setAnimationFrames(AnimationFrames.getSleepingFrames(newState));
+                setAnimationSpeed(AnimationFrames.sleepingSpeed);
+            } else {
+                setAnimationFrames(AnimationFrames.getStudyingFrames(newState));
+                setAnimationSpeed(AnimationFrames.studyingSpeed);
+            }
+        });
 
         document.body.style.backgroundColor = "#e9f5ff";
 
@@ -43,13 +56,13 @@ function AppScreen() {
             foodUnsubscribe();
             timeToLiveUnsubscribe();
             studyDurationUnsubscribe();
+            petStateUnsubscribe();
         };
     }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
             Session.inst.refreshState();
-            // console.log("refreshed");
         }, 500);
 
         return () => clearInterval(timer);
@@ -62,12 +75,20 @@ function AppScreen() {
 
     const startStudySession = () => {
         Session.inst.startStudySession();
-        playAnimation(null, AnimationFrames.studying, AnimationFrames.studyingSpeed);
+        playAnimation(
+            null,
+            AnimationFrames.getStudyingFrames(Session.inst.getPetState()),
+            AnimationFrames.studyingSpeed,
+        );
     };
 
     const endStudySession = () => {
         Session.inst.endStudySession();
-        playAnimation(null, AnimationFrames.sleeping, AnimationFrames.sleepingSpeed);
+        playAnimation(
+            null,
+            AnimationFrames.getSleepingFrames(Session.inst.getPetState()),
+            AnimationFrames.sleepingSpeed,
+        );
     };
 
     const playAnimation = (durationSeconds: number | null, frames: string[], speed: number) => {
@@ -80,13 +101,13 @@ function AppScreen() {
                 if (animationQueueSize <= 0) {
                     // Safety
                     animationQueueSize = 0;
-
                     const isResting = StateManager.studySessionDurationDescription.read() === null;
+                    const petState = Session.inst.getPetState();
                     if (isResting) {
-                        setAnimationFrames(AnimationFrames.sleeping);
+                        setAnimationFrames(AnimationFrames.getSleepingFrames(petState));
                         setAnimationSpeed(AnimationFrames.sleepingSpeed);
                     } else {
-                        setAnimationFrames(AnimationFrames.studying);
+                        setAnimationFrames(AnimationFrames.getStudyingFrames(petState));
                         setAnimationSpeed(AnimationFrames.studyingSpeed);
                     }
                 }

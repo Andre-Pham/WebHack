@@ -70,7 +70,7 @@ class Pet {
             this._state = PetState.tired3;
         } else if (timeToLiveMinutes < 60 * 24 * 3) {
             this._state = PetState.tired2;
-        } else if (timeToLiveMinutes < 60 * 24 * 3) {
+        } else if (timeToLiveMinutes < 60 * 24 * 4) {
             this._state = PetState.tired1;
         } else {
             this._state = PetState.healthy;

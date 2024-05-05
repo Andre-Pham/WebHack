@@ -27,7 +27,16 @@ class Session {
         StateManager.timeToLiveDescription.publish(this._pet?.timeToLiveDescription ?? null);
         StateManager.foodRemaining.publish(this._loggedInStudent?.food ?? 0);
         StateManager.studySessionDurationDescription.publish(this._activeStudySession?.durationDescription ?? null);
-        StateManager.petState.publish(this._pet?.state ?? PetState.healthy);
+        if (this._pet) {
+            if (this._pet.state !== StateManager.petState.read()) {
+                StateManager.petState.publish(this._pet.state);
+            }
+        }
+    }
+
+    public getPetState(): PetState {
+        this._pet?.refreshState();
+        return this._pet?.state ?? PetState.healthy;
     }
 
     public timeTravel(days: number = 0, hours: number = 0, minutes: number = 0) {
