@@ -141,9 +141,40 @@ function AppScreen() {
                             width: "100%",
                         }}
                     >
-                        <DropTarget target={HackDragType.carrot} onDrop={onFeedFood}>
-                            <AnimationPlayer frames={animationFrames} frameSpeed={animationSpeed} width={350} />
-                        </DropTarget>
+                        <div
+                            style={{
+                                width: 350,
+                                height: 350,
+                                position: "relative",
+                            }}
+                        >
+                            <HackImage
+                                fileName="shadow.png"
+                                width={290}
+                                height={120}
+                                scale={HackImageScale.none}
+                                style={{
+                                    position: "absolute",
+                                    left: "50%",
+                                    transform: "translateX(-50%)",
+                                    bottom: 15,
+                                    opacity: "22%",
+                                }}
+                            />
+
+                            <DropTarget target={HackDragType.carrot} onDrop={onFeedFood}>
+                                <AnimationPlayer
+                                    frames={animationFrames}
+                                    frameSpeed={animationSpeed}
+                                    width={350}
+                                    style={{
+                                        position: "absolute",
+                                        left: "50%",
+                                        transform: "translateX(-50%)",
+                                    }}
+                                />
+                            </DropTarget>
+                        </div>
 
                         <HGap size={150} />
 
@@ -154,6 +185,20 @@ function AppScreen() {
                                 position: "relative",
                             }}
                         >
+                            <HackImage
+                                fileName="shadow.png"
+                                width={230}
+                                height={100}
+                                scale={HackImageScale.none}
+                                style={{
+                                    position: "absolute",
+                                    left: "50%",
+                                    transform: "translateX(-61%)",
+                                    bottom: 15,
+                                    opacity: "22%",
+                                }}
+                            />
+
                             <HackImage
                                 fileName="table.png"
                                 width={350}
