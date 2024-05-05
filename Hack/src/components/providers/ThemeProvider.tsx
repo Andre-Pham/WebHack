@@ -24,7 +24,7 @@ export const ColorThemeProvider: React.FC<Props> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        document.body.style.backgroundColor = HackColors.background.getColor();
+        // document.body.style.backgroundColor = HackColors.background.getColor();
         LocalStorageManager.inst.writeColorTheme(colorScheme);
     }, [colorScheme]);
 

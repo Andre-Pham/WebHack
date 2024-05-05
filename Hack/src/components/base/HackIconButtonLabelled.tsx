@@ -55,7 +55,10 @@ const HackIconButtonLabelled: React.FC<Props> = ({
                     textAlign: "center",
                 }}
             >
-                <HackText typography={HackTypography.subscriptLabel} style={{ alignSelf: "center", textAlign: "center" }}>
+                <HackText
+                    typography={HackTypography.subscriptLabel}
+                    style={{ alignSelf: "center", textAlign: "center" }}
+                >
                     {label}
                 </HackText>
             </div>
