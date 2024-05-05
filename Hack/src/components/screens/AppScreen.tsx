@@ -29,6 +29,18 @@ function AppScreen() {
     const [timeTravelOpacity, setTimeTravelOpacity] = useState(0);
 
     useEffect(() => {
+        const loadAnimation = () => {
+            const newState = StateManager.petState.read();
+            const isResting = StateManager.studySessionDurationDescription.read() === null;
+            if (isResting) {
+                setAnimationFrames(AnimationFrames.getSleepingFrames(newState));
+                setAnimationSpeed(AnimationFrames.sleepingSpeed);
+            } else {
+                setAnimationFrames(AnimationFrames.getStudyingFrames(newState));
+                setAnimationSpeed(AnimationFrames.studyingSpeed);
+            }
+        };
+
         const foodUnsubscribe = StateManager.foodRemaining.subscribe(() => {
             setFoodCount(StateManager.foodRemaining.read());
         });
@@ -39,17 +51,11 @@ function AppScreen() {
             setStudySessionDuration(StateManager.studySessionDurationDescription.read());
         });
         const petStateUnsubscribe = StateManager.petState.subscribe(() => {
-            const newState = StateManager.petState.read();
-            const isResting = StateManager.studySessionDurationDescription.read() === null;
-            if (isResting) {
-                setAnimationFrames(AnimationFrames.getSleepingFrames(newState));
-                setAnimationSpeed(AnimationFrames.sleepingSpeed);
-            } else {
-                setAnimationFrames(AnimationFrames.getStudyingFrames(newState));
-                setAnimationSpeed(AnimationFrames.studyingSpeed);
-            }
+            loadAnimation();
         });
 
+        // Load animation on mount
+        loadAnimation();
         document.body.style.backgroundColor = "#e9f5ff";
 
         return () => {

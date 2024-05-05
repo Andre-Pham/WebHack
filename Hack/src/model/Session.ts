@@ -16,7 +16,8 @@ class Session {
         this._loggedInStudent = LocalStorageManager.inst.readStudent() ?? Student.new();
         this._pet = LocalStorageManager.inst.readPet() ?? Pet.new(7);
         this._activeStudySession = LocalStorageManager.inst.readStudySession();
-        this.persistState();
+        this.refreshState();
+        this.persistState(false);
     }
 
     public refreshState() {
