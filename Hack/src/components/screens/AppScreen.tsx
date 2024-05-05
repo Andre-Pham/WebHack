@@ -13,6 +13,7 @@ import HackText from "../base/HackText";
 import VGap from "../containers/Spacing/VGap";
 import AnimationFrames from "../../services/AnimationFrames";
 import AnimationPlayer from "../custom/AnimationPlayer";
+import HStack from "../containers/Stacks/HStack";
 
 function AppScreen() {
     const [foodCount, setFoodCount] = useState(StateManager.foodRemaining.read());
@@ -23,6 +24,7 @@ function AppScreen() {
     const [animationFrames, setAnimationFrames] = useState(AnimationFrames.sleeping);
     const [animationSpeed, setAnimationSpeed] = useState(AnimationFrames.sleepingSpeed);
     let animationQueueSize = 0;
+    const [timeTravelOpacity, setTimeTravelOpacity] = useState(0);
 
     useEffect(() => {
         const foodUnsubscribe = StateManager.foodRemaining.subscribe(() => {
@@ -249,6 +251,54 @@ function AppScreen() {
                             alignItems: "center",
                         }}
                     >
+                        <div
+                            onMouseEnter={() => {
+                                setTimeTravelOpacity(1);
+                            }}
+                            onMouseLeave={() => {
+                                setTimeTravelOpacity(0);
+                            }}
+                        >
+                            <HStack
+                                spacing={20}
+                                style={{
+                                    opacity: timeTravelOpacity,
+                                }}
+                            >
+                                <HackButton
+                                    label="+1 Day"
+                                    typography={HackTypography.button}
+                                    color={HackColors.accent}
+                                    onPress={() => {
+                                        Session.inst.timeTravel(1, 0, 0);
+                                    }}
+                                    wide={false}
+                                />
+
+                                <HackButton
+                                    label="+1 Hour"
+                                    typography={HackTypography.button}
+                                    color={HackColors.accent}
+                                    onPress={() => {
+                                        Session.inst.timeTravel(0, 1, 0);
+                                    }}
+                                    wide={false}
+                                />
+
+                                <HackButton
+                                    label="+5 Minutes"
+                                    typography={HackTypography.button}
+                                    color={HackColors.accent}
+                                    onPress={() => {
+                                        Session.inst.timeTravel(0, 0, 5);
+                                    }}
+                                    wide={false}
+                                />
+                            </HStack>
+                        </div>
+
+                        <VGap size={20} />
+
                         {studySessionDuration === null ? (
                             <>
                                 <HackButton

@@ -1,6 +1,6 @@
 class StudySession {
     // The amount of time you have to study to get one food
-    protected static readonly SECONDS_TO_FOOD_CONVERSION: number = 1;
+    protected static readonly SECONDS_TO_FOOD_CONVERSION: number = 60 * 25;
     // When the study session started
     protected _start: Date;
     // When the study session ended (or null if ongoing)
@@ -77,6 +77,15 @@ class StudySession {
         this._foodCollected += this._foodToCollect;
         this._foodToCollect = 0;
         return collected;
+    }
+
+    public addToStart(days: number = 0, hours: number = 0, minutes: number = 0) {
+        const newDate = new Date(this._start);
+        newDate.setDate(newDate.getDate() + days);
+        newDate.setHours(newDate.getHours() + hours);
+        newDate.setMinutes(newDate.getMinutes() + minutes);
+        this._start = newDate;
+        this.recalculateFoodToCollect();
     }
 }
 
