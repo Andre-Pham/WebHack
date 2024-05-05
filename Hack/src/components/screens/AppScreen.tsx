@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
-import HackDimensions from "../styling/HackDimensions";
-import VStack from "../containers/Stacks/VStack";
-import HackButton from "../base/HackButton";
-import HackImage from "../base/HackImage";
+// import HackDimensions from "../styling/HackDimensions";
+// import VStack from "../containers/Stacks/VStack";
+// import HackButton from "../base/HackButton";
+// import HackImage from "../base/HackImage";
 import AnimationPlay from "../custom/AnimationPlay";
-import { TIMEOUT } from "dns";
+// import { TIMEOUT } from "dns";
 import Break from "../custom/Break";
 import Session from "../custom/Session";
 import TimeLeft from "../custom/TimeLeft";
 import formatTime from "../custom/formatTime";
+import { isButtonElement } from "react-router-dom/dist/dom";
 
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import {auth} from '../../../firebase/firebaseConfig';
+
+// import firebase from 'firebase/app';
+// import 'firebase/auth';
 
 interface TimeProps {
     breakLength: string;
@@ -20,6 +27,8 @@ interface TimeProps {
     increaseBreakByOneMin: () => void;
     formatTime: (time: number) => string;
   }
+
+
 
 function AppScreen() {
 
@@ -78,13 +87,39 @@ function AppScreen() {
     };
   
   
-  
-  
+  //#################### GOOGLE AUTH #######################
+    const handleGoogle = async(e) => {
+        const provider = new GoogleAuthProvider();
+        return signInWithPopup(auth, provider)
+    }
 
 
 
-    
+    // const handleGoogle = async(e) => {
+
+    //     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(
+    //         (userCred) =>{
+    //             console.log(userCred)
+    //         })
+
+    // }
+
+    // const handleGoogle = async () => {
+    //     const provider = new GoogleAuthProvider();
+    //     signInWithPopup(auth, provider)
+    //       .then((userCred) => {
+    //         console.log(userCred);
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   };
+      
+
+
     return (
+
+     
         <> 
         <div className="AppScreen">
         <Break
@@ -103,8 +138,12 @@ function AppScreen() {
           increaseByOneMin={increaseByOneMin}
         />
       </div>
-
-
+        
+        <div > 
+            <button onClick = {handleGoogle}> 
+                Sign in to Google
+                </button>           
+            </div>
 
 
         <div>
