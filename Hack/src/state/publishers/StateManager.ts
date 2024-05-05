@@ -1,4 +1,3 @@
-import { PetState } from "../../model/BunnyState";
 import LocalStorageManager from "../../services/LocalStorageManager";
 import HackValuePublisher from "./impl/HackValuePublisher";
 import { ColorScheme } from "./types/ColorScheme";

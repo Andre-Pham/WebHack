@@ -32,12 +32,12 @@ const DragProxyLayer: React.FC<Props> = ({}) => {
         >
             <div style={getItemStyles(currentOffset)}>
                 {item?.type === HackDragType.carrot && (
-                    <HackImage fileName="carrot.png" width={100} scale={HackImageScale.scaleToFit} />
+                    <HackImage fileName="carrot.png" width={125} scale={HackImageScale.scaleToFit} />
                 )}
 
                 {item?.type !== HackDragType.carrot && (
                     <FadingDragProxy>
-                        <HackImage fileName="carrot.png" width={100} scale={HackImageScale.scaleToFit} />
+                        <HackImage fileName="carrot.png" width={125} scale={HackImageScale.scaleToFit} />
                     </FadingDragProxy>
                 )}
             </div>
