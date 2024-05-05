@@ -21,6 +21,9 @@ function AppScreen() {
     const [studySessionDuration, setStudySessionDuration] = useState<string | null>(
         StateManager.studySessionDurationDescription.read(),
     );
+    const [timeTillNextFood, setTimeTillNextFood] = useState<string | null>(
+        StateManager.timeTillNextFoodDescription.read(),
+    );
     const [animationFrames, setAnimationFrames] = useState(
         AnimationFrames.getSleepingFrames(Session.inst.getPetState()),
     );
@@ -50,6 +53,9 @@ function AppScreen() {
         const studyDurationUnsubscribe = StateManager.studySessionDurationDescription.subscribe(() => {
             setStudySessionDuration(StateManager.studySessionDurationDescription.read());
         });
+        const timeTillNextFoodUnsubscribe = StateManager.timeTillNextFoodDescription.subscribe(() => {
+            setTimeTillNextFood(StateManager.timeTillNextFoodDescription.read());
+        });
         const petStateUnsubscribe = StateManager.petState.subscribe(() => {
             loadAnimation();
         });
@@ -63,6 +69,7 @@ function AppScreen() {
             timeToLiveUnsubscribe();
             studyDurationUnsubscribe();
             petStateUnsubscribe();
+            timeTillNextFoodUnsubscribe();
         };
     }, []);
 
@@ -350,14 +357,20 @@ function AppScreen() {
                         ) : (
                             <>
                                 <HackText typography={HackTypography.timerSubscript} wide={false} verticalWrap={true}>
-                                    STUDY SESSION
+                                    {"STUDY SESSION"}
                                 </HackText>
 
                                 <HackText typography={HackTypography.timer} wide={false} verticalWrap={true}>
                                     {studySessionDuration}
                                 </HackText>
 
-                                <VGap size={20} />
+                                <VGap size={4} />
+
+                                <HackText typography={HackTypography.subscript} wide={false}>
+                                    {`Time until next carrot: ${timeTillNextFood}`}
+                                </HackText>
+
+                                <VGap size={24} />
 
                                 <HackButton
                                     label="End Study Session"

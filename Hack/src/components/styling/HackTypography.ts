@@ -20,7 +20,7 @@ class HackTypography {
     }
 
     static get subscript(): HackTypographyConfig {
-        return new HackTypographyConfig(14, HackFontFamily.fredoka, HackColors.textSemiDark, HackFontWeight.regular);
+        return new HackTypographyConfig(16, HackFontFamily.fredoka, HackColors.textSemiDark, HackFontWeight.regular);
     }
 
     static get chip(): HackTypographyConfig {

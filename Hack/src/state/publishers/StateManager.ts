@@ -45,6 +45,8 @@ class StateManager {
 
     public static readonly studySessionDurationDescription = new HackValuePublisher<string | null>(null);
 
+    public static readonly timeTillNextFoodDescription = new HackValuePublisher<string | null>(null);
+
     public static readonly petState = new HackValuePublisher<PetState>(PetState.healthy);
 
     public static setup() {

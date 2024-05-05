@@ -25,6 +25,7 @@ class Session {
         StateManager.timeToLiveDescription.publish(this._pet?.timeToLiveDescription ?? null);
         StateManager.foodRemaining.publish(this._loggedInStudent?.food ?? 0);
         StateManager.studySessionDurationDescription.publish(this._activeStudySession?.durationDescription ?? null);
+        StateManager.timeTillNextFoodDescription.publish(this._activeStudySession?.timeTillNextFoodDescription ?? null);
         if (this._pet) {
             if (this._pet.state !== StateManager.petState.read()) {
                 StateManager.petState.publish(this._pet.state);

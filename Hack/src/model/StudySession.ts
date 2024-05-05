@@ -60,6 +60,14 @@ class StudySession {
         const secondsString = seconds.toString().padStart(2, "0");
         return `${hoursString}h ${minutesString}m ${secondsString}s`;
     }
+    // Description of the amount of time until the next food (in minutes)
+    get timeTillNextFoodDescription(): string {
+        const durationMinutes = this.durationMinutes;
+        return `${
+            StudySession.SECONDS_TO_FOOD_CONVERSION / 60 -
+            (durationMinutes % (StudySession.SECONDS_TO_FOOD_CONVERSION / 60))
+        }m`;
+    }
 
     constructor(start: Date, end: Date | null, foodToCollect: number, foodCollected: number) {
         this._start = start;
