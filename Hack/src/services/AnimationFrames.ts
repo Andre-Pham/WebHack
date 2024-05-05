@@ -1,5 +1,5 @@
 import { UnreachableCaseError } from "../language/errors/UnreachableCaseError";
-import { PetState } from "../model/BunnyState";
+import { PetState } from "../model/PetState";
 
 class AnimationFrames {
     public static readonly eating = ["eating-1.png", "eating-2.png"];

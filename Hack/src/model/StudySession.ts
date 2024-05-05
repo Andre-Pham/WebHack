@@ -15,6 +15,12 @@ class StudySession {
     get end(): Date | null {
         return this._end;
     }
+    get foodToCollect(): number {
+        return this._foodToCollect;
+    }
+    get foodCollected(): number {
+        return this._foodCollected;
+    }
     // True if the study session is going
     get isOngoing(): boolean {
         return this._end === null;

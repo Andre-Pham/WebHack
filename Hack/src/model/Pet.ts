@@ -1,4 +1,4 @@
-import { PetState } from "./BunnyState";
+import { PetState } from "./PetState";
 
 class Pet {
     // The amount of time feeding adds to the death date

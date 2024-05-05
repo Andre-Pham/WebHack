@@ -284,6 +284,7 @@ function AppScreen() {
                                 spacing={20}
                                 style={{
                                     opacity: timeTravelOpacity,
+                                    transition: "opacity 2s",
                                 }}
                             >
                                 <HackButton
@@ -312,6 +313,16 @@ function AppScreen() {
                                     color={HackColors.accent}
                                     onPress={() => {
                                         Session.inst.timeTravel(0, 0, 5);
+                                    }}
+                                    wide={false}
+                                />
+
+                                <HackButton
+                                    label="Reset"
+                                    typography={HackTypography.button}
+                                    color={HackColors.accent}
+                                    onPress={() => {
+                                        Session.inst.resetStateAndPersistance();
                                     }}
                                     wide={false}
                                 />
@@ -357,7 +368,7 @@ function AppScreen() {
                         <HackText
                             typography={HackTypography.body}
                             wide={false}
-                        >{`Death Counter: ${timeToLive}`}</HackText>
+                        >{`Death Counter: ${timeToLive ?? "Loading..."}`}</HackText>
                     </VStack>
                 </div>
             </div>
