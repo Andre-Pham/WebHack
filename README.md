@@ -1,6 +1,8 @@
 # WebHack
 MAC x Atlassian: WebHack
 
+Try it out here: https://andre-pham.github.io/WebHack/
+
 ## Commands
 
 To run:
