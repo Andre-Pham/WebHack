@@ -12,6 +12,7 @@ import StateManager from "../../state/publishers/StateManager";
 import Session from "../../model/Session";
 import HackText from "../base/HackText";
 import HackFlexImage from "../base/HackFlexImage";
+import VGap from "../containers/Spacing/VGap";
 
 function AppScreen() {
     const [foodCount, setFoodCount] = useState(StateManager.foodRemaining.read());
@@ -44,7 +45,7 @@ function AppScreen() {
         const timer = setInterval(() => {
             Session.inst.refreshState();
             console.log("refreshed");
-        }, 1_000);
+        }, 500);
 
         return () => clearInterval(timer);
     }, []);
@@ -156,7 +157,6 @@ function AppScreen() {
                             style={{
                                 width: "200px",
                                 height: "100px",
-                                border: "1px solid black",
                                 position: "relative",
                                 bottom: "50px",
                             }}
@@ -188,9 +188,7 @@ function AppScreen() {
                                         fileName="carrot.png"
                                         width={125}
                                         scale={HackImageScale.scaleToFit}
-                                        style={{
-                                            border: "1px solid black",
-                                        }}
+                                        style={{}}
                                     />
                                 </Draggable>
                             ))}
@@ -203,32 +201,53 @@ function AppScreen() {
                     style={{
                         position: "absolute",
                         width: "100%",
+                        bottom: 500,
                     }}
                 >
-                    <VStack spacing={20}>
-                        <HackText typography={HackTypography.pageTitle}>{`Death Counter: ${timeToLive}`}</HackText>
+                    <VStack
+                        spacing={0}
+                        style={{
+                            alignItems: "center",
+                        }}
+                    >
+                        {studySessionDuration === null ? (
+                            <>
+                                <HackButton
+                                    label="Start Study Session"
+                                    typography={HackTypography.button}
+                                    color={HackColors.accent}
+                                    onPress={startStudySession}
+                                    wide={false}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <HackText typography={HackTypography.timerSubscript} wide={false} verticalWrap={true}>
+                                    STUDY SESSION
+                                </HackText>
 
-                        <HackText typography={HackTypography.pageTitle}>
-                            {`Study Duration: ${studySessionDuration}`}
-                        </HackText>
+                                <HackText typography={HackTypography.timer} wide={false} verticalWrap={true}>
+                                    {studySessionDuration}
+                                </HackText>
 
-                        <HStack spacing={20}>
-                            <HackButton
-                                label="Start Study Session"
-                                typography={HackTypography.button}
-                                color={HackColors.accent}
-                                onPress={startStudySession}
-                                wide={false}
-                            />
+                                <VGap size={20} />
 
-                            <HackButton
-                                label="End Study Session"
-                                typography={HackTypography.button}
-                                color={HackColors.accent}
-                                onPress={endStudySession}
-                                wide={false}
-                            />
-                        </HStack>
+                                <HackButton
+                                    label="End Study Session"
+                                    typography={HackTypography.button}
+                                    color={HackColors.accent}
+                                    onPress={endStudySession}
+                                    wide={false}
+                                />
+                            </>
+                        )}
+
+                        <VGap size={20} />
+
+                        <HackText
+                            typography={HackTypography.body}
+                            wide={false}
+                        >{`Death Counter: ${timeToLive}`}</HackText>
                     </VStack>
                 </div>
             </div>

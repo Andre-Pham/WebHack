@@ -1,6 +1,6 @@
 class StudySession {
     // The amount of time you have to study to get one food
-    protected static readonly MINUTES_TO_FOOD_CONVERSION: number = 2;
+    protected static readonly SECONDS_TO_FOOD_CONVERSION: number = 5;
     // When the study session started
     protected _start: Date;
     // When the study session ended (or null if ongoing)
@@ -28,22 +28,31 @@ class StudySession {
         const difference = this._end.getTime() - this._start.getTime();
         return new Date(difference);
     }
+    // The duration of the study session (thus far, if incomplete) in milliseconds
+    get durationMilliseconds(): number {
+        const endTime = this._end ? this._end.getTime() : new Date().getTime();
+        return endTime - this._start.getTime();
+    }
+    // The duration of the study session (thus far, if incomplete) in seconds
+    get durationSeconds(): number {
+        const millisecondsInSecond = 1000;
+        return Math.floor(this.durationMilliseconds / millisecondsInSecond);
+    }
     // The duration of the study session (thus far, if incomplete) in minutes
     get durationMinutes(): number {
         const millisecondsInMinute = 60000;
-        return Math.floor(this.duration.getTime() / millisecondsInMinute);
+        return Math.floor(this.durationMilliseconds / millisecondsInMinute);
     }
     // Description of the duration of the study session
     get durationDescription(): string {
-        const durationMinutes = this.durationMinutes;
-        const hours = Math.floor(durationMinutes / 60);
-        const minutes = durationMinutes % 60;
-        let result = "";
-        if (hours > 0) {
-            result += `${hours} hour${hours !== 1 ? "s" : ""} `;
-        }
-        result += `${minutes} minute${minutes !== 1 ? "s" : ""}`;
-        return result.trim();
+        const duration = this.durationMilliseconds;
+        const seconds = Math.floor((duration / 1000) % 60);
+        const minutes = Math.floor((duration / (1000 * 60)) % 60);
+        const hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+        const hoursString = hours.toString().padStart(2, "0");
+        const minutesString = minutes.toString().padStart(2, "0");
+        const secondsString = seconds.toString().padStart(2, "0");
+        return `${hoursString}h ${minutesString}m ${secondsString}s`;
     }
 
     constructor(start: Date, end: Date | null, foodToCollect: number, foodCollected: number) {
@@ -58,7 +67,7 @@ class StudySession {
     }
 
     public recalculateFoodToCollect() {
-        const totalFoods = Math.floor(this.durationMinutes / StudySession.MINUTES_TO_FOOD_CONVERSION);
+        const totalFoods = Math.floor(this.durationSeconds / StudySession.SECONDS_TO_FOOD_CONVERSION);
         const totalFoodsOwed = totalFoods - this._foodCollected;
         this._foodToCollect = totalFoodsOwed;
     }
