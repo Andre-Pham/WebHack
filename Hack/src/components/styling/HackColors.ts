@@ -7,7 +7,7 @@ import HackColor from "./color/HackColor";
  */
 class HackColors {
     static get accent(): HackColor {
-        return new HackColor("#1769ff");
+        return new HackColor("#ff8d51");
     }
 
     static get textLightPersistent(): HackColor {

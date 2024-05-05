@@ -105,41 +105,6 @@ function AppScreen() {
                     height: "100vh",
                 }}
             >
-                {/* Sky */}
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        width: "100%",
-                        height: "100%",
-                    }}
-                >
-                    {/* <div
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "#e9f5ff",
-                        }}
-                    /> */}
-                </div>
-
-                {/* Grass */}
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        width: "100%",
-                    }}
-                >
-                    <div
-                        style={{
-                            width: "100%",
-                            height: "160px",
-                            backgroundColor: "lightGreen",
-                        }}
-                    />
-                </div>
-
                 <div
                     style={{
                         position: "absolute",
@@ -184,30 +149,30 @@ function AppScreen() {
 
                         <div
                             style={{
-                                width: "200px",
-                                height: "100px",
+                                width: 350,
+                                height: 350,
                                 position: "relative",
-                                bottom: "50px",
                             }}
                         >
-                            <div
+                            <HackImage
+                                fileName="table.png"
+                                width={350}
+                                scale={HackImageScale.scaleToFit}
                                 style={{
-                                    backgroundColor: "purple",
-                                    width: "150px",
-                                    height: "100px",
                                     position: "absolute",
                                     left: "50%",
                                     transform: "translateX(-50%)",
                                 }}
-                            ></div>
+                            />
 
                             {Array.from({ length: foodCount }, (_, index) => (
                                 <Draggable
                                     style={{
                                         position: "absolute",
                                         left: "50%",
-                                        transform: "translateX(-50%)",
-                                        bottom: 20 + index * 20,
+                                        transform: "translateX(-80%)",
+                                        bottom: 100 + index * 20,
+                                        // right: -30,
                                     }}
                                     disableTransition={!(foodCount == 1 && index == 0)}
                                     type={HackDragType.carrot}
