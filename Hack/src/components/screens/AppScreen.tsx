@@ -11,22 +11,27 @@ import HGap from "../containers/Spacing/HGap";
 import StateManager from "../../state/publishers/StateManager";
 import Session from "../../model/Session";
 import HackText from "../base/HackText";
+import HackFlexImage from "../base/HackFlexImage";
 
 function AppScreen() {
     const [foodCount, setFoodCount] = useState(StateManager.foodRemaining.read());
     const [timeToLive, setTimeToLive] = useState<string | null>(StateManager.timeToLiveDescription.read());
-    const [studySessionDuration, setStudySessionDuration] = useState<string | null>(StateManager.studySessionDurationDescription.read());
+    const [studySessionDuration, setStudySessionDuration] = useState<string | null>(
+        StateManager.studySessionDurationDescription.read(),
+    );
 
     useEffect(() => {
         const foodUnsubscribe = StateManager.foodRemaining.subscribe(() => {
-            setFoodCount(StateManager.foodRemaining.read())
+            setFoodCount(StateManager.foodRemaining.read());
         });
         const timeToLiveUnsubscribe = StateManager.timeToLiveDescription.subscribe(() => {
             setTimeToLive(StateManager.timeToLiveDescription.read());
         });
         const studyDurationUnsubscribe = StateManager.studySessionDurationDescription.subscribe(() => {
             setStudySessionDuration(StateManager.studySessionDurationDescription.read());
-        })
+        });
+
+        document.body.style.backgroundColor = "#e9f5ff";
 
         return () => {
             foodUnsubscribe();
@@ -40,21 +45,21 @@ function AppScreen() {
             Session.inst.refreshState();
             console.log("refreshed");
         }, 1_000);
-    
+
         return () => clearInterval(timer);
     }, []);
 
     const onFeedFood = () => {
         Session.inst.feedPet();
-    }
+    };
 
     const startStudySession = () => {
         Session.inst.startStudySession();
-    }
+    };
 
     const endStudySession = () => {
-        Session.inst.endStudySession()
-    }
+        Session.inst.endStudySession();
+    };
 
     return (
         <div style={{}}>
@@ -74,13 +79,13 @@ function AppScreen() {
                         height: "100%",
                     }}
                 >
-                    <div
+                    {/* <div
                         style={{
                             width: "100%",
                             height: "100%",
-                            backgroundColor: "lightBlue",
+                            backgroundColor: "#e9f5ff",
                         }}
-                    />
+                    /> */}
                 </div>
 
                 {/* Grass */}
@@ -103,6 +108,25 @@ function AppScreen() {
                 <div
                     style={{
                         position: "absolute",
+                        bottom: 0,
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                >
+                    <HackImage
+                        fileName="background-wide.png"
+                        scale={HackImageScale.scaleToFit}
+                        style={{
+                            height: 800,
+                            position: "relative",
+                        }}
+                    />
+                </div>
+
+                <div
+                    style={{
+                        position: "absolute",
                         bottom: "0",
                         width: "100%",
                         display: "flex",
@@ -115,24 +139,18 @@ function AppScreen() {
                             justifyContent: "center",
                             alignItems: "end",
                             width: "100%",
-                            border: "1px solid black",
                         }}
                     >
-                        <DropTarget
-                            target={HackDragType.carrot}
-                            onDrop={onFeedFood}
-                        >
+                        <DropTarget target={HackDragType.carrot} onDrop={onFeedFood}>
                             <HackImage
                                 fileName="study-1.png"
-                                width={300}
+                                width={400}
                                 scale={HackImageScale.scaleToFit}
-                                style={{
-                                    border: "1px solid black",
-                                }}
+                                style={{}}
                             />
                         </DropTarget>
 
-                        <HGap size={100} />
+                        <HGap size={200} />
 
                         <div
                             style={{
@@ -168,7 +186,7 @@ function AppScreen() {
                                 >
                                     <HackImage
                                         fileName="carrot.png"
-                                        width={100}
+                                        width={125}
                                         scale={HackImageScale.scaleToFit}
                                         style={{
                                             border: "1px solid black",
@@ -188,9 +206,7 @@ function AppScreen() {
                     }}
                 >
                     <VStack spacing={20}>
-                        <HackText typography={HackTypography.pageTitle}>
-                            {`Death Counter: ${timeToLive}`}
-                        </HackText>
+                        <HackText typography={HackTypography.pageTitle}>{`Death Counter: ${timeToLive}`}</HackText>
 
                         <HackText typography={HackTypography.pageTitle}>
                             {`Study Duration: ${studySessionDuration}`}
